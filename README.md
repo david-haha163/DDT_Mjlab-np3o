@@ -1,6 +1,6 @@
 # DDT_Mjlab — NP3O Locomotion for Wheel-Legged Robots
 
-Locomotion training for the **D1** (quadruped with wheels), **D1H** (wheel-legged biped), and **TITA** (wheel-legged biped) robots, using **NP3O** (BarlowTwins-augmented constrained PPO) built on [mjlab](https://github.com/mujocolab/mjlab).
+Locomotion training for the **D1** (quadruped with wheels) robot, using **NP3O** (BarlowTwins-augmented constrained PPO) built on [mjlab](https://github.com/mujocolab/mjlab).
 
 This is an **mjlab-native** migration from the original IsaacLab-based `DDT_Lab-np3o` codebase, ported to the MuJoCo-backed mjlab framework with behavior equivalence.
 
@@ -13,7 +13,7 @@ This is an **mjlab-native** migration from the original IsaacLab-based `DDT_Lab-
 | ---------- | ------- |
 | Python     | 3.11    |
 | CUDA       | > 12.4  |
-| mjlab      | 1.4.0   |
+| MJLab      | 1.4.0   |
 
 ---
 
@@ -60,10 +60,6 @@ Expected output:
 Available tasks:
   Mjlab-Velocity-Flat-D1
   Mjlab-Velocity-Rough-D1
-  Mjlab-Velocity-Flat-D1H
-  Mjlab-Velocity-Rough-D1H
-  Mjlab-Velocity-Flat-TITA
-  Mjlab-Velocity-Rough-TITA
 ```
 
 ---
@@ -123,11 +119,9 @@ python scripts/play.py Mjlab-Velocity-Flat-D1 \
 ## Available robots & tasks
 
 
-| Robot    | Description           | Flat task                  | Rough task                  |
-| -------- | --------------------- | -------------------------- | --------------------------- |
-| **D1**   | Quadruped with wheels | `Mjlab-Velocity-Flat-D1`   | `Mjlab-Velocity-Rough-D1`   |
-| **D1H**  | Wheel-legged biped    | `Mjlab-Velocity-Flat-D1H`  | `Mjlab-Velocity-Rough-D1H`  |
-| **TITA** | Wheel-legged biped    | `Mjlab-Velocity-Flat-TITA` | `Mjlab-Velocity-Rough-TITA` |
+| Robot  | Description           | Flat task                | Rough task                |
+| ------ | --------------------- | ------------------------ | ------------------------- |
+| **D1** | Quadruped with wheels | `Mjlab-Velocity-Flat-D1` | `Mjlab-Velocity-Rough-D1` |
 
 ---
 
@@ -151,9 +145,7 @@ np3o/
     │   ├── terminations.py
     │   └── curriculums.py
     ├── config/                   # Per-robot, per-terrain env configs
-    │   ├── d1/
-    │   ├── d1h/
-    │   └── tita/
+    │   └── d1/
     └── rl/                       # Shared NP3O runner hyper-parameters
         └── rl_cfg.py
 ```
@@ -170,7 +162,7 @@ When you run a script, the side-effect import
 import np3o.tasks.locomotion  # noqa: F401
 ```
 
-triggers `np3o/tasks/locomotion/__init__.py` to auto-discover every package under `config/` (e.g. `d1/`, `d1h/`, `tita/`) and import them. Each package then registers its flat / rough tasks.
+triggers `np3o/tasks/locomotion/__init__.py` to auto-discover every package under `config/` (e.g. `d1/`) and import them. Each package then registers its flat / rough tasks.
 
 ### Adding your own tasks
 
@@ -201,4 +193,3 @@ Verify that your task is registered:
 ```bash
 python scripts/train.py --list-tasks
 ```
-
